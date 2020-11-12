@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     double box_sx, box_sy, box_sz, box_ex, box_ey, box_ez, box_wt;
     sscanf(delete_str[0].c_str(), "'box_sx=%lf box_sy=%lf box_sz=%lf box_ex=%lf box_ey=%lf box_ez=%lf box_wt=%lf",
            &box_sx, &box_sy, &box_sz, &box_ex, &box_ey, &box_ez, &box_wt);
-//    std::cout <<std::setprecision(10)<< box_sx << " " << box_sy << " " << box_sz << " " << box_ex << " " << box_ey << " " << box_ez << " " << box_wt << std::endl;
+    //    std::cout <<std::setprecision(10)<< box_sx << " " << box_sy << " " << box_sz << " " << box_ex << " " << box_ey << " " << box_ez << " " << box_wt << std::endl;
 
     //detail.txtの記入にも必要
     double box_size_x = box_ex - box_sx,
@@ -254,15 +254,15 @@ int main(int argc, char *argv[])
     for (int i = 0; i < only_vesicle_pinfo.size(); i++)
     {
         only_vesicle_pinfo.at(i).posz += box_size_z;
-        only_vesicle_pinfo.at(i).id += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).bond_pair[0] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).bond_pair[1] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).angle_pair[0][0] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).angle_pair[0][1] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).angle_pair[0][2] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).angle_pair[1][0] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).angle_pair[1][1] += double_vesicle_pinfo.size() + 1 - i;
-        only_vesicle_pinfo.at(i).angle_pair[1][2] += double_vesicle_pinfo.size() + 1 - i;
+        only_vesicle_pinfo.at(i).id += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).bond_pair[0] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).bond_pair[1] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).angle_pair[0][0] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).angle_pair[0][1] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).angle_pair[0][2] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).angle_pair[1][0] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).angle_pair[1][1] += double_vesicle_pinfo.size() - i;
+        only_vesicle_pinfo.at(i).angle_pair[1][2] += double_vesicle_pinfo.size() - i;
         double_vesicle_pinfo.push_back(only_vesicle_pinfo.at(i));
     }
 

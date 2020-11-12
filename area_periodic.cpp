@@ -66,8 +66,17 @@ int main(int argc, char *argv[])
     double box_sx, box_sy, box_sz, box_ex, box_ey, box_ez, box_wt;
     sscanf(delete_str[0].c_str(), "'box_sx=%lf box_sy=%lf box_sz=%lf box_ex=%lf box_ey=%lf box_ez=%lf box_wt=%lf",
            &box_sx, &box_sy, &box_sz, &box_ex, &box_ey, &box_ez, &box_wt);
-    //    std::cout <<std::setprecision(10)<< box_sx << " " << box_sy << " " << box_sz << " " << box_ex << " " << box_ey << " " << box_ez << " " << box_wt << std::endl;
-    /*
+//    std::cout <<std::setprecision(10)<< box_sx << " " << box_sy << " " << box_sz << " " << box_ex << " " << box_ey << " " << box_ez << " " << box_wt << std::endl;
+
+    //detail.txtの記入にも必要
+    double box_size_x = box_ex - box_sx,
+           box_size_y = box_ey - box_sy,
+           box_size_z = box_ez - box_sz;
+    uint32_t num_water = 0, num_lipid = 0, num;
+    double rho;
+
+#if 0 //座標ファイル以外の読み込みは必要ない．
+/*
     
     
     
@@ -166,6 +175,9 @@ int main(int argc, char *argv[])
         pinfo.at(k).nangle++;
     }
     ifs3.close();
+#endif
+
+#if 0 //area_eraser,area_junctionを消去
     /*//アングル情報をファイルに書き出す際に便利な書き方．
     for (int i = 0; i < 10; i++)
     {
@@ -257,7 +269,8 @@ int main(int argc, char *argv[])
     //    box_size_z = (box_ez + (vesicle_ez - vesicle_sz) - (box_ez - vesicle_ez)) - box_sz;
     box_size_z = (box_ez - box_sz) * 2 - (box_ez - vesicle_ez) * 3;
     box_ez += (box_ez - box_sz) - (box_ez - vesicle_ez) * 3;
-#if 1
+#endif
+
     /*
     
     
@@ -268,7 +281,7 @@ int main(int argc, char *argv[])
     //pos_file
 
     FILE *fpo0;
-    fpo0 = fopen(argv[5], "w");
+    fpo0 = fopen(argv[2], "w");
     if (fpo0 == NULL)
     {
         printf("ERROR_initial_pos_lipid.cdv\n");
@@ -279,16 +292,17 @@ int main(int argc, char *argv[])
     {
         fprintf(fpo0, "%s \n", delete_str[i].c_str());
     }
-    for (int i = 0; i < double_vesicle_pinfo.size(); i++)
+    for (int i = 0; i < pinfo.size(); i++)
     {
         fprintf(fpo0, "%d %d   %lf   %lf   %lf \n",
-                double_vesicle_pinfo.at(i).id + 1,
-                double_vesicle_pinfo.at(i).type + 1,
-                double_vesicle_pinfo.at(i).posx,
-                double_vesicle_pinfo.at(i).posy,
-                double_vesicle_pinfo.at(i).posz);
+                pinfo.at(i).id + 1,
+                pinfo.at(i).type + 1,
+                pinfo.at(i).posx,
+                pinfo.at(i).posy,
+                pinfo.at(i).posz);
     }
     fclose(fpo0);
+#if 0 //座標ファイル以外の出力を消去
     /*
 
 
@@ -362,16 +376,16 @@ int main(int argc, char *argv[])
 
     */
 
-    for (int i = 0; i < double_vesicle_pinfo.size(); i++)
+    for (int i = 0; i < pinfo.size(); i++)
     {
-        if (double_vesicle_pinfo.at(i).type + 1 == 3)
+        if (pinfo.at(i).type + 1 == 3)
             num_water++;
         else
             num_lipid++;
     }
     num = num_water + num_lipid;
     rho = num / (box_size_x * box_size_y * box_size_z);
-    std::string filename0 = argv[9];
+    std::string filename0 = argv[3];
     std::ofstream writing_file0;
     writing_file0.open(filename0, std::ios::out);
     writing_file0 << "自分で決めるパラメータ" << std::endl;

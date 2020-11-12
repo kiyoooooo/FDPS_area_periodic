@@ -74,6 +74,27 @@ int main(int argc, char *argv[])
            box_size_z = box_ez - box_sz;
     uint32_t num_water = 0, num_lipid = 0, num;
     double rho;
+    /*
+    
+    
+    
+    
+    座標の周期境界移動を行う．*/
+    for (int i = 0; i < pinfo.size(); i++)
+    {
+        if (pinfo.at(i).posx > box_size_x / 2.0)
+            pinfo.at(i).posx = pinfo.at(i).posx - box_size_x;
+        if (pinfo.at(i).posy > box_size_y / 2.0)
+            pinfo.at(i).posy = pinfo.at(i).posy - box_size_y;
+        if (pinfo.at(i).posz > box_size_z / 2.0)
+            pinfo.at(i).posz = pinfo.at(i).posz - box_size_z;
+    }
+    box_sx-=box_size_x / 2.0;
+    box_ex-=box_size_x / 2.0;
+    box_sy-=box_size_y / 2.0;
+    box_ey-=box_size_y / 2.0;
+    box_sz-=box_size_z / 2.0;
+    box_ez-=box_size_z / 2.0;
 
 #if 0 //座標ファイル以外の読み込みは必要ない．
 /*

@@ -30,6 +30,14 @@ public:
     uint32_t angle_pair[2][3];
     uint32_t angle_type[2];
     uint32_t nangle = 0;
+
+    //sortを利用するために定義
+    bool operator<(const ParticleInfo &another) const
+    {
+        //メンバ変数であるnum1で比較した結果を
+        //この構造体の比較とする
+        return id < another.id;
+    }
 };
 
 int main(int argc, char *argv[])
@@ -67,7 +75,7 @@ int main(int argc, char *argv[])
     sscanf(delete_str[0].c_str(), "'box_sx=%lf box_sy=%lf box_sz=%lf box_ex=%lf box_ey=%lf box_ez=%lf box_wt=%lf",
            &box_sx, &box_sy, &box_sz, &box_ex, &box_ey, &box_ez, &box_wt);
     //    std::cout <<std::setprecision(10)<< box_sx << " " << box_sy << " " << box_sz << " " << box_ex << " " << box_ey << " " << box_ez << " " << box_wt << std::endl;
-
+    std::sort(pinfo.begin(), pinfo.end()); //classでオペレータを定義して利用している．
     //detail.txtの記入にも必要
     double box_size_x = box_ex - box_sx,
            box_size_y = box_ey - box_sy,
@@ -89,12 +97,12 @@ int main(int argc, char *argv[])
         if (pinfo.at(i).posz > box_size_z / 2.0)
             pinfo.at(i).posz = pinfo.at(i).posz - box_size_z;
     }
-    box_sx-=box_size_x / 2.0;
-    box_ex-=box_size_x / 2.0;
-    box_sy-=box_size_y / 2.0;
-    box_ey-=box_size_y / 2.0;
-    box_sz-=box_size_z / 2.0;
-    box_ez-=box_size_z / 2.0;
+    box_sx -= box_size_x / 2.0;
+    box_ex -= box_size_x / 2.0;
+    box_sy -= box_size_y / 2.0;
+    box_ey -= box_size_y / 2.0;
+    box_sz -= box_size_z / 2.0;
+    box_ez -= box_size_z / 2.0;
 
 #if 0 //座標ファイル以外の読み込みは必要ない．
 /*
